@@ -1,0 +1,56 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+}
+
+/* Background scrolling infini */
+.scrolling-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%; /* Largeur double pour la répétition */
+    height: 100%;
+    background: url('fond.png') repeat-x;
+    background-size: contain;
+    animation: scroll 20s linear infinite;
+    z-index: 1;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Logo en bas */
+.bottom-logo {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    max-width: 150px;
+    height: auto;
+}
+
+/* Overlay pour le démarrage du son */
+#overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+#play-button {
+    padding: 15px 30px;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-weight: bold;
+}
