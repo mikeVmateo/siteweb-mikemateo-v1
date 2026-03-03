@@ -18,13 +18,22 @@
 </head>
 <body>
     <h1 style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">
-  Mike Mateo 
-</h1>
+        Mike Mateo - Visual Sound Design
+    </h1>
 
     <div class="scrolling-background"></div>
 
     <div id="overlay">
         <button id="play-button">PLAY</button>
+    </div>
+
+    <div id="custom-player">
+        <button onclick="skip(-10)">-10s</button>
+        <button id="toggle-play" onclick="togglePlay()">PAUSE</button>
+        <button onclick="skip(10)">+10s</button>
+        <div id="progress-container" onclick="seek(event)">
+            <div id="progress-bar"></div>
+        </div>
     </div>
 
     <img src="logo.png" alt="Logo" class="bottom-logo">
@@ -34,14 +43,48 @@
     </audio>
 
     <script>
-        const btn = document.getElementById('play-button');
         const audio = document.getElementById('bg-audio');
         const overlay = document.getElementById('overlay');
+        const playBtn = document.getElementById('play-button');
+        const toggleBtn = document.getElementById('toggle-play');
+        const progressBar = document.getElementById('progress-bar');
 
-        btn.addEventListener('click', () => {
+        // Lancement initial
+        playBtn.addEventListener('click', () => {
             audio.play();
-            overlay.style.display = 'none';
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 500);
+            document.getElementById('custom-player').style.display = 'flex';
         });
+
+        // Play / Pause
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                toggleBtn.innerText = "PAUSE";
+            } else {
+                audio.pause();
+                toggleBtn.innerText = "PLAY";
+            }
+        }
+
+        // Avancer / Reculer
+        function skip(time) {
+            audio.currentTime += time;
+        }
+
+        // Barre de progression
+        audio.addEventListener('timeupdate', () => {
+            const percentage = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percentage + '%';
+        });
+
+        function seek(event) {
+            const container = document.getElementById('progress-container');
+            const rect = container.getBoundingClientRect();
+            const pos = (event.clientX - rect.left) / container.offsetWidth;
+            audio.currentTime = pos * audio.duration;
+        }
     </script>
 </body>
 </html>
